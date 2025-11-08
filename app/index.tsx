@@ -50,6 +50,60 @@ export default function Index() {
             },
             heading: 180, // Facing south
           },
+          {
+            id: '3',
+            name: 'Charlie',
+            coordinate: {
+              latitude: userLat + 0.0015,
+              longitude: userLon - 0.0018,
+            },
+            heading: 90, // Facing east
+          },
+          {
+            id: '4',
+            name: 'Diana',
+            coordinate: {
+              latitude: userLat - 0.0025,
+              longitude: userLon - 0.001,
+            },
+            heading: 270, // Facing west
+          },
+          {
+            id: '5',
+            name: 'Emma',
+            coordinate: {
+              latitude: userLat + 0.003,
+              longitude: userLon + 0.0025,
+            },
+            heading: 135, // Facing southeast
+          },
+          {
+            id: '6',
+            name: 'Frank',
+            coordinate: {
+              latitude: userLat - 0.0008,
+              longitude: userLon - 0.0022,
+            },
+            heading: 0, // Facing north
+          },
+          {
+            id: '7',
+            name: 'Grace',
+            coordinate: {
+              latitude: userLat + 0.0012,
+              longitude: userLon + 0.003,
+            },
+            heading: 225, // Facing southwest
+          },
+          {
+            id: '8',
+            name: 'Henry',
+            coordinate: {
+              latitude: userLat - 0.0018,
+              longitude: userLon + 0.0015,
+            },
+            heading: 315, // Facing northwest
+          },
         ];
 
         setUsers(demoUsers);
