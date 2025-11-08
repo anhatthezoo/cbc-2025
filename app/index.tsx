@@ -1,8 +1,8 @@
-import { Maps, UserData, SearchBar, BottomSheet } from "@/components";
-import { View, ActivityIndicator } from "react-native";
-import { useState, useEffect, useCallback } from "react";
-import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
+import { BottomSheet, Maps, SearchBar, UserData } from "@/components";
 import * as Location from "expo-location";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
 
 export default function Index() {
   const params = useLocalSearchParams<{ destination?: string }>();
