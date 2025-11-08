@@ -75,7 +75,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
                 },
               ]}
             >
-              Nearby users
+              {users.length} {users.length === 1 ? 'person' : 'people'} nearby
             </Text>
             {destination && (
               <Text
@@ -112,6 +112,8 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
         <ScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.listContainer}
+          showsVerticalScrollIndicator={true}
+          bounces={true}
         >
           {users.length === 0 ? (
             <View style={styles.emptyContainer}>
@@ -148,8 +150,8 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
                   style={[
                     styles.avatar,
                     {
-                      backgroundColor: theme.colors.backgroundTertiary,
-                      borderColor: theme.colors.primary,
+                      backgroundColor: theme.colors.primary,
+                      borderColor: theme.colors.primaryDark,
                     },
                   ]}
                 >
@@ -157,7 +159,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
                     style={[
                       styles.avatarText,
                       {
-                        color: theme.colors.primary,
+                        color: '#FFFFFF',
                         fontFamily: theme.typography.fontFamily.regular,
                         fontWeight: theme.typography.fontWeight.semibold,
                       },
@@ -267,10 +269,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   scrollView: {
-    flex: 1,
+    maxHeight: SCREEN_HEIGHT * 0.5,
   },
   listContainer: {
     paddingBottom: 40,
+    flexGrow: 1,
   },
   userItem: {
     flexDirection: 'row',

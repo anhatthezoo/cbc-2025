@@ -6,20 +6,20 @@ export const theme = {
     // Anthropic brand colors
     primary: '#D97757',        // Warm coral/orange
     primaryDark: '#C85A38',    // Darker shade for pressed states
-    primaryLight: '#FFEBE5',   // Light tint for backgrounds
+    primaryLight: '#2D1F1A',   // Dark tint for backgrounds
 
-    // Neutrals - clean and modern
-    background: '#FFFFFF',
-    backgroundSecondary: '#F9FAFB',
-    backgroundTertiary: '#F3F4F6',
+    // Neutrals - dark mode
+    background: '#000000',
+    backgroundSecondary: '#0F0F0F',
+    backgroundTertiary: '#1A1A1A',
 
     // Text colors
-    text: '#1F2937',           // Primary text
-    textSecondary: '#6B7280',  // Secondary text
-    textTertiary: '#9CA3AF',   // Disabled/tertiary text
+    text: '#FFFFFF',           // Primary text (white)
+    textSecondary: '#A1A1A1',  // Secondary text (light gray)
+    textTertiary: '#6B6B6B',   // Disabled/tertiary text (medium gray)
 
     // Borders
-    border: '#E5E7EB',
+    border: '#2A2A2A',
     borderFocus: '#D97757',
 
     // States
@@ -29,8 +29,8 @@ export const theme = {
     info: '#3B82F6',
 
     // Overlay
-    overlay: 'rgba(0, 0, 0, 0.5)',
-    overlayLight: 'rgba(0, 0, 0, 0.1)',
+    overlay: 'rgba(0, 0, 0, 0.7)',
+    overlayLight: 'rgba(0, 0, 0, 0.3)',
   },
 
   spacing: {

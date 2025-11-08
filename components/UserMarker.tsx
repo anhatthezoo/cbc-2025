@@ -21,6 +21,9 @@ export interface UserData {
 
   /** Avatar URL (optional) */
   avatarUrl?: string;
+
+  /** Where the user is heading to */
+  destination?: string;
 }
 
 interface UserMarkerProps {
@@ -58,7 +61,7 @@ export const UserMarker: React.FC<UserMarkerProps> = ({ user, onPress }) => {
               style={[
                 styles.arrow,
                 {
-                  borderBottomColor: theme.colors.primary,
+                  borderBottomColor: theme.colors.primaryDark,
                 },
               ]}
             />
@@ -71,7 +74,7 @@ export const UserMarker: React.FC<UserMarkerProps> = ({ user, onPress }) => {
             styles.innerCircle,
             {
               backgroundColor: theme.colors.background,
-              borderColor: theme.colors.primary,
+              borderColor: theme.colors.primaryDark,
             },
           ]}
         >
@@ -80,7 +83,7 @@ export const UserMarker: React.FC<UserMarkerProps> = ({ user, onPress }) => {
             style={[
               styles.avatarPlaceholder,
               {
-                backgroundColor: theme.colors.backgroundTertiary,
+                backgroundColor: theme.colors.primary,
               },
             ]}
           >
@@ -88,7 +91,7 @@ export const UserMarker: React.FC<UserMarkerProps> = ({ user, onPress }) => {
               style={[
                 styles.avatarText,
                 {
-                  color: theme.colors.primary,
+                  color: '#FFFFFF',
                   fontFamily: theme.typography.fontFamily.regular,
                   fontWeight: theme.typography.fontWeight.semibold,
                 },

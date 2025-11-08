@@ -10,6 +10,7 @@ export default function Index() {
   const [isLoading, setIsLoading] = useState(true);
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState<string | undefined>();
+  const [selectedUserId, setSelectedUserId] = useState<string | undefined>();
 
   useEffect(() => {
     const setupDemoUsers = async () => {
@@ -29,28 +30,41 @@ export default function Index() {
         const userLat = location.coords.latitude;
         const userLon = location.coords.longitude;
 
-        // Create demo users near the user's location
-        // Offset by ~0.002 degrees (roughly 200-300 meters)
-        const demoUsers: UserData[] = [
-          {
-            id: '1',
-            name: 'Alice',
-            coordinate: {
-              latitude: userLat + 0.002,
-              longitude: userLon + 0.001,
-            },
-            heading: 45, // Facing northeast
-          },
-          {
-            id: '2',
-            name: 'Bob',
-            coordinate: {
-              latitude: userLat - 0.001,
-              longitude: userLon + 0.002,
-            },
-            heading: 180, // Facing south
-          },
+        // Generate 50+ demo users with random data
+        const destinations = [
+          'Coffee Shop',
+          'Central Park',
+          'Downtown Plaza',
+          'Tech Campus',
+          'Food Market',
         ];
+
+        const firstNames = [
+          'Alice', 'Bob', 'Charlie', 'Diana', 'Emma', 'Frank', 'Grace', 'Henry',
+          'Ivy', 'Jack', 'Kate', 'Liam', 'Maya', 'Noah', 'Olivia', 'Paul',
+          'Quinn', 'Rose', 'Sam', 'Tara', 'Uma', 'Victor', 'Wendy', 'Xander',
+          'Yara', 'Zoe', 'Alex', 'Blake', 'Casey', 'Drew', 'Ellis', 'Finley',
+          'Gray', 'Harper', 'Indigo', 'Jordan', 'Kai', 'Logan', 'Morgan', 'Nico',
+          'Parker', 'Reese', 'Sage', 'Taylor', 'Val', 'West', 'Wren', 'Yuki',
+          'Zara', 'Ash', 'Bailey', 'Cameron',
+        ];
+
+        const demoUsers: UserData[] = firstNames.map((name, index) => {
+          // Random offset within ~1km radius
+          const latOffset = (Math.random() - 0.5) * 0.01;
+          const lonOffset = (Math.random() - 0.5) * 0.01;
+
+          return {
+            id: `${index + 1}`,
+            name,
+            coordinate: {
+              latitude: userLat + latOffset,
+              longitude: userLon + lonOffset,
+            },
+            heading: Math.floor(Math.random() * 360),
+            destination: destinations[Math.floor(Math.random() * destinations.length)],
+          };
+        });
 
         setUsers(demoUsers);
       } catch (error) {
@@ -78,6 +92,12 @@ export default function Index() {
   const handleBottomSheetClose = () => {
     setShowBottomSheet(false);
     setSelectedDestination(undefined);
+    setSelectedUserId(undefined);
+  };
+
+  const handleUserPress = (userId: string) => {
+    console.log('Selected user:', userId);
+    setSelectedUserId(userId);
   };
 
   if (isLoading) {
@@ -88,11 +108,23 @@ export default function Index() {
     );
   }
 
+  // Filter users by destination for bottom sheet
+  const filteredUsers = selectedDestination
+    ? users.filter(user => user.destination === selectedDestination)
+    : [];
+
+  // Debug logging
+  console.log('Total users:', users.length);
+  console.log('Selected destination:', selectedDestination);
+  console.log('Filtered users:', filteredUsers.length);
+  console.log('Show bottom sheet:', showBottomSheet);
+
   return (
     <View style={{ flex: 1 }}>
       <Maps
         users={users}
-        onUserPress={(userId) => console.log('User pressed:', userId)}
+        selectedUserId={selectedUserId}
+        onUserPress={handleUserPress}
       />
 
       {/* Search bar at bottom */}
@@ -103,9 +135,9 @@ export default function Index() {
       {/* Bottom sheet with nearby users */}
       <BottomSheet
         visible={showBottomSheet}
-        users={users}
+        users={filteredUsers}
         destination={selectedDestination}
-        onUserPress={(userId) => console.log('Selected user:', userId)}
+        onUserPress={handleUserPress}
         onClose={handleBottomSheetClose}
       />
     </View>

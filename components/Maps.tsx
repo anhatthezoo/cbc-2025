@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
-import MapView, { MapViewProps, Region, PROVIDER_DEFAULT } from 'react-native-maps';
+import MapView, { MapViewProps, Region, PROVIDER_DEFAULT, Polyline } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useTheme } from './ThemeProvider';
 import { UserMarker, UserData } from './UserMarker';
@@ -11,6 +11,9 @@ interface MapsProps extends Omit<MapViewProps, 'style'> {
 
   /** Array of users to display on the map */
   users?: UserData[];
+
+  /** ID of selected user to show route to */
+  selectedUserId?: string;
 
   /** Callback when a user marker is pressed */
   onUserPress?: (userId: string) => void;
@@ -43,6 +46,7 @@ interface MapsProps extends Omit<MapViewProps, 'style'> {
 export const Maps: React.FC<MapsProps> = ({
   initialRegion,
   users = [],
+  selectedUserId,
   onUserPress,
   showsUserLocation = true,
   followsUserLocation = false,
@@ -58,6 +62,7 @@ export const Maps: React.FC<MapsProps> = ({
   const mapRef = useRef<MapView>(null);
   const [region, setRegion] = useState<Region | undefined>(initialRegion);
   const [isLoadingLocation, setIsLoadingLocation] = useState(true);
+  const [currentLocation, setCurrentLocation] = useState<{ latitude: number; longitude: number } | null>(null);
 
   useEffect(() => {
     const getUserLocation = async () => {
@@ -83,10 +88,17 @@ export const Maps: React.FC<MapsProps> = ({
           accuracy: Location.Accuracy.Balanced,
         });
 
-        // Set region to user's location
-        setRegion({
+        const userLocation = {
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
+        };
+
+        // Set current location for route drawing
+        setCurrentLocation(userLocation);
+
+        // Set region to user's location
+        setRegion({
+          ...userLocation,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         });
@@ -142,6 +154,24 @@ export const Maps: React.FC<MapsProps> = ({
         {users.map((user) => (
           <UserMarker key={user.id} user={user} onPress={onUserPress} />
         ))}
+
+        {/* Render route to selected user */}
+        {selectedUserId && currentLocation && (() => {
+          const selectedUser = users.find(u => u.id === selectedUserId);
+          if (!selectedUser) return null;
+
+          return (
+            <Polyline
+              coordinates={[
+                currentLocation,
+                selectedUser.coordinate,
+              ]}
+              strokeColor={theme.colors.primary}
+              strokeWidth={4}
+              lineDashPattern={[0]}
+            />
+          );
+        })()}
       </MapView>
     </View>
   );
@@ -150,7 +180,7 @@ export const Maps: React.FC<MapsProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F3F4F6',
+    backgroundColor: '#000000',
   },
   loadingContainer: {
     justifyContent: 'center',
